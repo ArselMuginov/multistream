@@ -1,20 +1,18 @@
 <html>
 <head>
   <title>Multistream</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <ul class="ch-list">
-    <li>
-      <span class="ch-list-edit">+</span>
-    </li>
-  </ul>
-  <script>
-    var chList = document.querySelector('.ch-list');
-    var chListEdit = document.querySelector('.ch-list-edit');
-    
-    chListEdit.onclick = function() {
-      chList.contentEditable = true;
-    }
-  </script>
+  <main>
+    <section id="ch-container">
+      <header>
+        <h1>Channel list</h1>
+      </header>
+      <div class="ch-list"></div>
+      <button id="ch-list-add" type="button">Add channel</button>
+    </section>
+  </main>
+  <script src="script.js"></script>
 </body>
 </html>
