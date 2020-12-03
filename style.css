@@ -1,3 +1,19 @@
+/* Font */
+html {
+    font-family: 'Noto Sans', sans-serif;
+}
+body {
+    font-family: inherit;
+}
+/* 12-Span Grid */
+main {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+#ch-container {
+    grid-column: 1 / span 4;
+}
+/* Channel List */
 .ch-list {
     display: grid;
     grid-template-columns: min-content auto min-content;
@@ -5,15 +21,14 @@
 }
 .ch-num {
     grid-column: 1;
-    grid-row: auto;
 }
 .ch-edit {
     grid-column: 2;
-    grid-row: auto;
+    white-space: nowrap;
+    overflow: hidden;
 }
 .ch-remove {
     grid-column: 3;
-    grid-row: auto;
 }
 .ch-edit:empty::before {
     content: 'Channel name...';
