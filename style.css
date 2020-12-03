@@ -1,35 +1,56 @@
-/* Font */
 html {
     font-family: 'Noto Sans', sans-serif;
 }
 body {
     font-family: inherit;
 }
-/* 12-Span Grid */
-main {
-    display: grid;
-    grid-template-columns: repeat(12, 1fr);
-}
-#ch-container {
-    grid-column: 1 / span 4;
-}
-/* Channel List */
-.ch-list {
-    display: grid;
-    grid-template-columns: min-content auto min-content;
-    gap: 10px;
-}
-.ch-num {
-    grid-column: 1;
-}
-.ch-edit {
-    grid-column: 2;
+span {
+    display: inline-flex;
+    align-items: center;
     white-space: nowrap;
     overflow: hidden;
+    padding: 0.2rem 0.5rem;
 }
-.ch-remove {
-    grid-column: 3;
+button {
+    border: none;
+    padding: 0.2rem 0.5rem;
+    text-align: center;
+    text-decoration: none;
 }
+/* Main grid */
+main {
+    display: grid;
+    grid-auto-columns: minmax(100px, auto);
+}
+#channels {
+    grid-column: 1;
+    padding: 1rem;
+    background-color: azure;
+}
+/* Coloring */
+.color1 {
+    background-color: palegreen;
+    color: black;
+}
+.color2 {
+    background-color: paleturquoise;
+    color: black;
+}
+.color-danger {
+    background-color: tomato;
+    color: black;
+}
+/* Text symbols */
+.symbol {
+    font-size: 1.1em;
+}
+/* Channel grid */
+#ch-list {
+    display: grid;
+    grid-template-columns: min-content auto min-content;
+    gap: 1rem;
+}
+/* Channel edit field placeholder */
 .ch-edit:empty::before {
-    content: 'Channel name...';
+    content: 'Add channel name...';
 }
