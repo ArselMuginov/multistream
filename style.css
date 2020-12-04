@@ -1,56 +1,194 @@
+/* Color scheme */
+body {
+    --color1: #264653;
+    --color2: #e9c46a;
+    --color3: #f4a261;
+
+    --bg-color: white;
+    --success-color: #2a9d8f;
+    --danger-color: #e76f51;
+    --border-color: #dbdbdb;
+    --border-color-hover: #b5b5b5;
+
+    --text-color-light: #ffffffd8;
+    --text-color-dark: black;
+    --ph-text-color-light: #ffffff8a;
+    --ph-text-color-dark: #0000008a;
+
+    --text-color: var(--text-color-dark);
+}
+body.dark-theme {
+    --color1: #0D171C;
+    --color2: #DFAC2A;
+    --color3: #EF7A1A;
+
+    --bg-color: black;
+    --success-color: #1A6158;
+    --danger-color: #D7431D;
+    --border-color: #474747;
+    --border-color-hover: #666666;
+    --text-color: var(--text-color-light);
+}
+/* General CSS */
 html {
     font-family: 'Noto Sans', sans-serif;
+    height: 100%;
+    padding: 0;
+    margin: 0;
 }
 body {
     font-family: inherit;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: var(--bg-color);
+}
+body, input {
+    color: var(--text-color);
+}
+span, button, input {
+    border: 1px solid transparent;
+    border-radius: 4px;
+}
+span, button {
+    text-align: center;
+    white-space: nowrap;
 }
 span {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-    overflow: hidden;
-    padding: 0.2rem 0.5rem;
+    padding: calc(.5em - 1px) calc(.5em - 1px);
+    text-align: center;
 }
 button {
-    border: none;
-    padding: 0.2rem 0.5rem;
-    text-align: center;
-    text-decoration: none;
+    padding: calc(.5em - 1px) 1em;
+}
+input {
+    padding: calc(.5em - 1px) calc(.75em - 1px);
+    box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05);
+    background-color: transparent;
+    border-color: var(--border-color);
+}
+input:hover {
+    border-color: var(--border-color-hover);
+}
+input:invalid {
+    border-color: var(--danger-color);
+}
+/* Light text */
+.clr1::placeholder {
+    color: var(--ph-text-color-light);
+}
+.clr1::-ms-input-placeholder {
+    color: var(--ph-text-color-light);
+}
+.dark-theme .clr1::placeholder, .dark-theme .clr3::placeholder {
+    color: var(--ph-text-color-light);
+}
+.dark-theme .clr1::-ms-input-placeholder, .dark-theme clr3::-ms-input-placeholder {
+    color: var(--ph-text-color-light);
+}
+/* Dark text */
+.clr2::placeholder, .clr3::placeholder {
+    color: var(--ph-text-color-dark);
+}
+.clr2::-ms-input-placeholder, .clr3::-ms-input-placeholder {
+    color: var(--ph-text-color-dark);
+}
+.dark-theme .clr2::placeholder {
+    color: var(--ph-text-color-dark);
+}
+.dark-theme .clr2::-ms-input-placeholder {
+    color: var(--ph-text-color-dark);
+}
+/* Site header */
+body > header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    margin: .3rem;
+}
+#theme-switch {
+    grid-column: 2;
 }
 /* Main grid */
 main {
     display: grid;
     grid-auto-columns: minmax(100px, auto);
+    grid-template-rows: auto 1fr;
 }
 #channels {
     grid-column: 1;
     padding: 1rem;
-    background-color: azure;
+
+    display: grid;
+    gap: 1rem;
 }
 /* Coloring */
-.color1 {
-    background-color: palegreen;
-    color: black;
+.success {
+    /* Light text */
+    color: var(--text-color-light);
+    background-color: var(--success-color);
 }
-.color2 {
-    background-color: paleturquoise;
-    color: black;
+.dark-theme .success {
+    color: var(--success-color);
+    background-color: transparent;
+    border: 1px solid var(--success-color);
 }
-.color-danger {
-    background-color: tomato;
-    color: black;
+.danger {
+    /* Light text */
+    color: var(--text-color-light);
+    background-color: var(--danger-color);
 }
-/* Text symbols */
-.symbol {
-    font-size: 1.1em;
+.dark-theme .danger {
+    color: var(--danger-color);
+    background-color: transparent;
+    border: 1px solid var(--danger-color);
 }
-/* Channel grid */
+.clr1, .clr3 {
+    /* Light text */
+    color: var(--text-color-light);
+}
+.clr2 {
+    /* Dark text */
+    color: var(--text-color-dark);
+}
+.clr1 {
+    background-color: var(--color1);
+}
+.clr2 {
+    background-color: var(--color2);
+}
+.clr3 {
+    background-color: var(--color3);
+}
+.dark-theme .clr1 {
+    background-color: transparent;
+    color: var(--color1);
+    border: 1px solid var(--color1);
+}
+.dark-theme .clr2 {
+    background-color: transparent;
+    color: var(--color2);
+    border: 1px solid var(--color2);
+}
+.dark-theme .clr3 {
+    background-color: transparent;
+    color: var(--color3);
+    border: 1px solid var(--color3);
+}
+/* Font Awesome icons */
+.fas {
+    margin: .5rem;
+}
+/* Channel list */
 #ch-list {
+    position: relative;
     display: grid;
     grid-template-columns: min-content auto min-content;
     gap: 1rem;
 }
-/* Channel edit field placeholder */
-.ch-edit:empty::before {
-    content: 'Add channel name...';
+#ch-ctrl {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(8ch, 1fr));
+    gap: 1rem;
 }

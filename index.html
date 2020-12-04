@@ -2,23 +2,45 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Multistream</title>
+  <!-- Noto Sans -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap">
+  <!-- Font Awesome -->
+  <script src="https://kit.fontawesome.com/7400b8df3a.js" crossorigin="anonymous"></script>
+  <!-- Tippy.js -->
+  <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
+  <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
+  <!-- Local CSS -->
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="dark-theme || light-theme">
+  <header>
+    <a id="theme-switch">
+      <i class="fas fa-adjust fa-lg"></i>
+    </a>
+  </header>
   <main>
     <section id="channels">
       <header>
         <h1>Channel list</h1>
       </header>
-      <div id="ch-list">
-        <button id="ch-list-add" class="symbol color1" type="button">+</button>
+      <div id="ch-list"></div>
+      <div id="ch-ctrl">
+        <button id="ch-list-add" class="success" type="button">Add</button>
+        <button id="ch-list-save" class="clr2" type="button">Save</button>
+        <button id="ch-list-load" class="clr2" type="button">Load</button>
+        <button id="ch-list-export" class="clr2" type="button">Export</button>
+        <button id="ch-list-import" class="clr2" type="button">Import</button>
+        <button id="ch-list-clear" class="danger" type="button">Clear</button>
       </div>
     </section>
   </main>
+  <footer></footer>
+  <!-- Local JS -->
   <script src="script.js"></script>
 </body>
 
