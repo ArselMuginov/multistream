@@ -5,6 +5,8 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Multistream</title>
+  <!-- Local CSS Reset -->
+  <link rel="stylesheet" href="reset.css">
   <!-- Noto Sans -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap">
@@ -14,29 +16,37 @@
   <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.min.js"></script>
   <script src="https://unpkg.com/tippy.js@6/dist/tippy-bundle.umd.js"></script>
   <!-- Local CSS -->
+  <link rel="stylesheet" href="material-colors.css">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dark-mode.css">
 </head>
 
-<body class="dark-theme || light-theme">
+<body>
   <header>
-    <a id="theme-switch">
-      <i class="fas fa-adjust fa-lg"></i>
+    <span><h3>Multistream</h3></span>
+    <div></div>
+    <a class="i-wrap" href="https://github.com/ArselMuginov/multistream" aria-label="Project on GitHub">
+      <i class="fab fa-github fa-2x" title="View on GitHub" aria-hidden="true"></i>
     </a>
+    <button id="dark-mode-toggle" class="i-wrap" aria-label="Toggle dark mode">
+      <i class="fas fa-adjust fa-2x" title="Toggle dark mode" aria-hidden="true"></i>
+    </button>
   </header>
   <main>
     <section id="channels">
       <header>
         <h1>Channel list</h1>
       </header>
-      <div id="ch-list"></div>
-      <div id="ch-ctrl">
+      <div id="ch-list" class="grid-a1a"></div>
+      <div id="ch-ctrl" class="grid-ram">
         <button id="ch-list-add" class="success" type="button">Add</button>
-        <button id="ch-list-save" class="clr2" type="button">Save</button>
-        <button id="ch-list-load" class="clr2" type="button">Load</button>
-        <button id="ch-list-export" class="clr2" type="button">Export</button>
-        <button id="ch-list-import" class="clr2" type="button">Import</button>
+        <button id="ch-list-save" class="primary" type="button">Save</button>
+        <button id="ch-list-load" class="primary" type="button">Load</button>
+        <button id="ch-list-export" class="primary" type="button">Export</button>
+        <button id="ch-list-import" class="primary" type="button">Import</button>
         <button id="ch-list-clear" class="danger" type="button">Clear</button>
       </div>
+      <div id="stored-ch-lists" class="grid-a1a" hidden></div>
     </section>
   </main>
   <footer></footer>

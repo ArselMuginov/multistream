@@ -1,0 +1,58 @@
+[data-dark-mode] body {
+    background-color: var(--black);
+    color: var(--white);
+}
+[data-dark-mode] body > header {
+    background-color: #2632383d;
+}
+[data-dark-mode] .i-wrap {
+    color: rgba(255, 255, 255, 0.5);
+}
+[data-dark-mode] .i-wrap:hover {
+    color: var(--white);
+}
+/* Color types */
+[data-dark-mode] .success {
+    color: var(--green-500);
+    background-color: transparent;
+    border-color: var(--green-500);
+}
+[data-dark-mode] .danger {
+    color: var(--red-500);
+    background-color: transparent;
+    border-color: var(--red-500);
+}
+[data-dark-mode] .primary {
+    color: var(--cyan-500);
+    background-color: transparent;
+    border-color: var(--cyan-500);
+}
+[data-dark-mode] .dim {
+    color: var(--cyan-800);
+    background-color: transparent;
+    /* Cyan 800 with alpha */
+    border-color: rgba(0, 131, 143, 0.5);
+}
+[data-dark-mode] button.success:hover {
+    color: var(--black);
+    background-color: var(--green-500);
+    border-color: transparent;
+}
+[data-dark-mode] button.danger:hover {
+    color: var(--black);
+    background-color: var(--red-500);
+    border-color: transparent;
+}
+[data-dark-mode] button.primary:hover {
+    color: var(--black);
+    background-color: var(--cyan-500);
+    border-color: transparent;
+}
+[data-dark-mode] input.dim:hover {
+    border-color: var(--cyan-800);
+}
+/* Placeholders of color types */
+[data-dark-mode] ::placeholder,
+[data-dark-mode] ::-ms-input-placeholder {
+    color: var(--grey-500);
+}

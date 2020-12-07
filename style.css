@@ -1,194 +1,108 @@
-/* Color scheme */
-body {
-    --color1: #264653;
-    --color2: #e9c46a;
-    --color3: #f4a261;
-
-    --bg-color: white;
-    --success-color: #2a9d8f;
-    --danger-color: #e76f51;
-    --border-color: #dbdbdb;
-    --border-color-hover: #b5b5b5;
-
-    --text-color-light: #ffffffd8;
-    --text-color-dark: black;
-    --ph-text-color-light: #ffffff8a;
-    --ph-text-color-dark: #0000008a;
-
-    --text-color: var(--text-color-dark);
-}
-body.dark-theme {
-    --color1: #0D171C;
-    --color2: #DFAC2A;
-    --color3: #EF7A1A;
-
-    --bg-color: black;
-    --success-color: #1A6158;
-    --danger-color: #D7431D;
-    --border-color: #474747;
-    --border-color-hover: #666666;
-    --text-color: var(--text-color-light);
-}
-/* General CSS */
+/* Font */
 html {
+    /* header, default, secondary-2px, tertiary/wildcard */
     font-family: 'Noto Sans', sans-serif;
-    height: 100%;
-    padding: 0;
-    margin: 0;
+    font-size: 100%;
 }
+/* General CSS and body grid */
 body {
-    font-family: inherit;
     display: grid;
     grid-template-rows: auto 1fr auto;
-    min-height: 100%;
-    padding: 0;
-    margin: 0;
-    background-color: var(--bg-color);
+    background-color: var(--white);
+    color: var(--black);
 }
-body, input {
-    color: var(--text-color);
+body, body > header, button, i {
+    transition: background .4s;
 }
-span, button, input {
-    border: 1px solid transparent;
-    border-radius: 4px;
-}
-span, button {
-    text-align: center;
-    white-space: nowrap;
-}
-span {
-    padding: calc(.5em - 1px) calc(.5em - 1px);
-    text-align: center;
-}
-button {
-    padding: calc(.5em - 1px) 1em;
-}
-input {
-    padding: calc(.5em - 1px) calc(.75em - 1px);
-    box-shadow: inset 0 0.0625em 0.125em rgba(10,10,10,.05);
-    background-color: transparent;
-    border-color: var(--border-color);
-}
-input:hover {
-    border-color: var(--border-color-hover);
-}
-input:invalid {
-    border-color: var(--danger-color);
-}
-/* Light text */
-.clr1::placeholder {
-    color: var(--ph-text-color-light);
-}
-.clr1::-ms-input-placeholder {
-    color: var(--ph-text-color-light);
-}
-.dark-theme .clr1::placeholder, .dark-theme .clr3::placeholder {
-    color: var(--ph-text-color-light);
-}
-.dark-theme .clr1::-ms-input-placeholder, .dark-theme clr3::-ms-input-placeholder {
-    color: var(--ph-text-color-light);
-}
-/* Dark text */
-.clr2::placeholder, .clr3::placeholder {
-    color: var(--ph-text-color-dark);
-}
-.clr2::-ms-input-placeholder, .clr3::-ms-input-placeholder {
-    color: var(--ph-text-color-dark);
-}
-.dark-theme .clr2::placeholder {
-    color: var(--ph-text-color-dark);
-}
-.dark-theme .clr2::-ms-input-placeholder {
-    color: var(--ph-text-color-dark);
-}
-/* Site header */
 body > header {
     display: grid;
-    grid-template-columns: 1fr auto;
-    margin: .3rem;
+    grid-template-columns: auto 1fr auto auto;
+    padding: 0.3rem 0.3rem 0.3rem 1rem;
+    background-color: #e1f5fe71;
 }
-#theme-switch {
-    grid-column: 2;
+span {
+    /* padding: .5em; */
+    display: inline-flex;
+    place-items: center;
+    white-space: nowrap;
+}
+button {
+    padding: 0.5em;
+    text-align: center;
+}
+input {
+    padding: .5em .75em;
+    background-color: var(--grey-50);
+    border-color: var(--cyan-100);
+}
+/* Borders */
+span, button, input {
+    border: 1px solid transparent;
+    border-radius: 10px;
 }
 /* Main grid */
 main {
-    display: grid;
-    grid-auto-columns: minmax(100px, auto);
-    grid-template-rows: auto 1fr;
-}
-#channels {
-    grid-column: 1;
     padding: 1rem;
-
+}
+section {
+    max-width: 700px;
+    margin: 0 auto;
     display: grid;
     gap: 1rem;
+}
+/* Icon wrappers */
+.i-wrap {
+    margin: 0.4rem;
+    color: rgba(0, 0, 0, 0.5);
+}
+.i-wrap:hover {
+    color: var(--black);
+    transition: all .5s;
+}
+a.i-wrap {
+    display: inline-flex;
+    place-items: center;
+}
+button.i-wrap {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+/* Positioning */
+.float-right {
+    float: right;
 }
 /* Coloring */
 .success {
-    /* Light text */
-    color: var(--text-color-light);
-    background-color: var(--success-color);
-}
-.dark-theme .success {
-    color: var(--success-color);
-    background-color: transparent;
-    border: 1px solid var(--success-color);
+    color: var(--black);
+    background-color: var(--green-600);
 }
 .danger {
-    /* Light text */
-    color: var(--text-color-light);
-    background-color: var(--danger-color);
+    color: var(--black);
+    background-color: var(--red-600);
 }
-.dark-theme .danger {
-    color: var(--danger-color);
-    background-color: transparent;
-    border: 1px solid var(--danger-color);
+.primary {
+    color: var(--black);
+    background-color: var(--cyan-600);
 }
-.clr1, .clr3 {
-    /* Light text */
-    color: var(--text-color-light);
+.dim {
+    /* Cyan 100 with alpha */
+    background-color: rgba(178, 235, 242, 0.5);
 }
-.clr2 {
-    /* Dark text */
-    color: var(--text-color-dark);
+::placeholder,
+::-ms-input-placeholder {
+    color: var(--grey-500);
 }
-.clr1 {
-    background-color: var(--color1);
-}
-.clr2 {
-    background-color: var(--color2);
-}
-.clr3 {
-    background-color: var(--color3);
-}
-.dark-theme .clr1 {
-    background-color: transparent;
-    color: var(--color1);
-    border: 1px solid var(--color1);
-}
-.dark-theme .clr2 {
-    background-color: transparent;
-    color: var(--color2);
-    border: 1px solid var(--color2);
-}
-.dark-theme .clr3 {
-    background-color: transparent;
-    color: var(--color3);
-    border: 1px solid var(--color3);
-}
-/* Font Awesome icons */
-.fas {
-    margin: .5rem;
-}
-/* Channel list */
-#ch-list {
-    position: relative;
+/* Other grids */
+.grid-a1a {
+    /* Auto 1fr Auto */
     display: grid;
-    grid-template-columns: min-content auto min-content;
+    grid-template-columns: auto 1fr auto;
     gap: 1rem;
 }
-#ch-ctrl {
+.grid-ram {
+    /* Repeat Auto Minmax */
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(8ch, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(10ch, 1fr));
     gap: 1rem;
 }
