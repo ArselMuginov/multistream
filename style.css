@@ -17,6 +17,7 @@ body, body > header, button, i {
 body > header {
     display: grid;
     grid-template-columns: auto 1fr auto auto;
+    place-items: center;
     padding: 0.3rem 0.3rem 0.3rem 1rem;
     background-color: #e1f5fe71;
 }
@@ -58,10 +59,6 @@ section {
 .i-wrap:hover {
     color: var(--black);
     transition: all .5s;
-}
-a.i-wrap {
-    display: inline-flex;
-    place-items: center;
 }
 button.i-wrap {
     padding: 0;
