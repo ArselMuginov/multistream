@@ -1,73 +1,36 @@
 // Dark theme
 document.documentElement.toggleAttribute('data-dark-mode');
-document.getElementById('dark-mode-toggle').addEventListener('click', function () {
+document.getElementById('dark-mode-toggle').addEventListener('click', () => {
     document.documentElement.toggleAttribute('data-dark-mode');
 });
 
 // Channel list
 (function () {
-    var channelList = document.getElementById('ch-list');
-    var addBtn = document.getElementById('ch-list-add');
-    var saveBtn = document.getElementById('ch-list-save');
-    var loadBtn = document.getElementById('ch-list-load');
-    var exportBtn = document.getElementById('ch-list-export');
-    var importBtn = document.getElementById('ch-list-import');
-    var clearBtn = document.getElementById('ch-list-clear');
-    var storedChannelLists = document.getElementById('stored-ch-lists');
-    var storedKeyPrefix = 'ch-list';
+    const channelList = document.getElementById('ch-list');
+    const addBtn = document.getElementById('ch-list-add');
+    const saveBtn = document.getElementById('ch-list-save');
+    const loadBtn = document.getElementById('ch-list-load');
+    const exportBtn = document.getElementById('ch-list-export');
+    const importBtn = document.getElementById('ch-list-import');
+    const clearBtn = document.getElementById('ch-list-clear');
+    const storedChannelLists = document.getElementById('stored-ch-lists');
+    const storedKeyPrefix = 'ch-list';
+    let channelListName = 'default';
 
-    function appendIndex(parent, className, channelCount) {
-        var index = document.createElement('span');
-        index.className = className.concat(` row-${channelCount}`);
-        index.textContent = channelCount;
-        parent.appendChild(index);
-    }
+    function htmlElement(type, attributes) {
+        const element = document.createElement(type);
 
-    function appendChannelInput(parent, channelCount) {
-        var input = document.createElement('input');
-        input.type = 'url';
-        input.className = `row-${channelCount} dim`;
-        input.required = true;
-        input.placeholder = 'Write channel name...';
-        parent.appendChild(input);
-        input.focus();
-    }
-
-    function appendChannelListInput(parent, channel, channelCount) {
-        var input = document.createElement('input');
-        input.type = 'text';
-        input.className = `row-${channelCount}`;
-        input.required = true;
-        input.placeholder = 'Write list name...';
-        input.textContent = channel;
-        parent.appendChild(input);
-    }
-
-    function appendDeleteButton(parent, channelCount) {
-        var deleteButton = document.createElement('button');
-        deleteButton.className = `danger row-${channelCount}`;
-        deleteButton.type = 'button';
-        deleteButton.textContent = '\u2715';
-
-        deleteButton.onclick = function () {
-            // Remove row
-            parent.querySelectorAll('.row-'.concat(channelCount))
-                .forEach(function (node) {
-                    node.parentNode.removeChild(node);
-                });
-
-            // Edit index spans
-            parent.querySelectorAll('span').forEach(function (span, i) {
-                span.textContent = i + 1;
-            });
+        for (const key in attributes) {
+            element.setAttribute(key, attributes[key]);
         }
-        parent.appendChild(deleteButton);
+
+        return element;
     }
 
     function areInputsValid(parent) {
-        var valid = true;
-        parent.querySelectorAll('input').forEach(function (input) {
-            var message = input.validationMessage;
+        let valid = true;
+        for (const input of parent.querySelectorAll('input')) {
+            const message = input.validationMessage;
             if (message) {
                 valid = false;
                 tippy(input, {
@@ -80,65 +43,159 @@ document.getElementById('dark-mode-toggle').addEventListener('click', function (
                     }
                 });
             }
-        });
+        }
         return valid;
     }
 
+    function addChannel(num, channelName) {
+        const index = htmlElement('span');
+        index.textContent = num ? num : 1 + channelList.querySelectorAll('span').length;
+        channelList.appendChild(index);
+
+        const input = htmlElement('input', {
+            type: 'url',
+            class: 'dim',
+            required: true,
+            placeholder: 'Write channel name...'
+        });
+        if (num) {
+            input.value = channelName;
+            input.readonly = true;
+        }
+        channelList.appendChild(input);
+
+        const deleteButton = htmlElement('button', {
+            class: 'danger',
+            type: 'button'
+        });
+        deleteButton.textContent = '\u2715';
+        deleteButton.addEventListener('click', () => {
+            // Remove row
+            index.remove();
+            input.remove();
+            deleteButton.remove();
+
+            // Edit index spans
+            channelList.querySelectorAll('span').forEach(
+                (span, i) => { span.textContent = i + 1; }
+            );
+        });
+        channelList.appendChild(deleteButton);
+
+        if (!num) {
+            input.focus();
+        }
+    }
+
+    function clearList(list) {
+        while (list.firstChild) {
+            list.removeChild(list.lastChild);
+        }
+    }
+
+    function loadChannelList(key, listName) {
+        channelListName = listName;
+
+        const channels = JSON.parse(decodeURIComponent(
+            localStorage.getItem(key)
+        ));
+
+        channels.forEach((channelName, i) => { addChannel(i + 1, channelName) });
+    }
+
     // Add new channel to list
-    addBtn.addEventListener('click', function () {
-        var channelCount = (channelList.querySelectorAll('span').length + 1).toString();
-        appendIndex(channelList, 'clr3', channelCount);
-        appendChannelInput(channelList, channelCount);
-        appendDeleteButton(channelList, channelCount);
-    });
+    addBtn.addEventListener('click', () => { addChannel() });
 
     // Local storage save
-    saveBtn.addEventListener('click', function () {
-        if (!areInputsValid(channelList)) {
-            return;
-        }
+    saveBtn.addEventListener('click', () => {
+        if (!areInputsValid(channelList)) return;
 
-        var channelsEnc = encodeURIComponent(JSON.stringify(
-            [...channelList.querySelectorAll('input')]
-                .map(function (input) { return input.value; })
-        ));
-        var listNameEnc = encodeURIComponent(
-            storedKeyPrefix.concat(window.prompt('Name your channel list', 'default'))
-        );
+        const listName = window.prompt('Name your channel list', channelListName);
+        const listNameEnc = storedKeyPrefix.concat(encodeURIComponent(listName));
 
-        var confirmText = 'This name already exists. Overwrite?';
+        const confirmText = 'This name already exists. Overwrite?';
         if (localStorage.getItem(listNameEnc) && !window.confirm(confirmText)) {
             return;
         }
+
+        const channelsEnc = encodeURIComponent(JSON.stringify(
+            [...channelList.querySelectorAll('input')].map(input => input.value)
+        ));
+
         localStorage.setItem(listNameEnc, channelsEnc);
     });
 
     // Local storage load
-    loadBtn.addEventListener('click', function () {
+    loadBtn.addEventListener('click', () => {
+        if (storedChannelLists.firstChild) {
+            // List already showing
+            return;
+        }
         Object.keys(localStorage)
-            .forEach(function (key, index) {
-                var channel = decodeURIComponent(key).replace(storedKeyPrefix, '');
-                appendIndex(storedChannelLists, 'clr3', index + 1);
-                appendChannelListInput(storedChannelLists, channel, index + 1);
-                appendDeleteButton(storedChannelLists, index + 1);
+            .filter(key => key.startsWith(storedKeyPrefix))
+            .forEach((key, i) => {
+                const listName = decodeURIComponent(
+                    key.replace(storedKeyPrefix, '')
+                );
+
+                const index = htmlElement('span');
+                index.textContent = i + 1;
+                storedChannelLists.appendChild(index);
+
+                const channelField = htmlElement('input', {
+                    type: 'text',
+                    class: 'dim',
+                    required: true,
+                    placeholder: 'Write list name...',
+                    value: listName,
+                    readonly: true
+                });
+                channelField.addEventListener('click', () => {
+                    if (channelList.firstChild && confirm('Want to save your list first?')) {
+                        return;
+                    }
+                    clearList(channelList);
+                    clearList(storedChannelLists);
+                    loadChannelList(key, listName);
+                });
+                storedChannelLists.appendChild(channelField);
+
+                const deleteButton = htmlElement('button', {
+                    class: 'danger',
+                    type: 'button'
+                });
+                deleteButton.textContent = '\u2715';
+                deleteButton.addEventListener('click', () => {
+                    // Remove row
+                    index.remove();
+                    channelField.remove();
+                    deleteButton.remove();
+
+                    // Edit index spans
+                    storedChannelLists.querySelectorAll('span').forEach(
+                        (span, i) => { span.textContent = i + 1 }
+                    );
+
+                    // Remove local storage data
+                    localStorage.removeItem(key);
+                });
+                storedChannelLists.appendChild(deleteButton);
             });
     });
 
-    exportBtn.addEventListener('click', function () {
-        // local storage save
+    // Export channel list to local file
+    exportBtn.addEventListener('click', () => {
     });
 
-    importBtn.addEventListener('click', function () {
-        // local storage save
+    // Import channel list from local file
+    importBtn.addEventListener('click', () => {
     });
 
     // Clear list
-    clearBtn.addEventListener('click', function () {
-        var confirmText = 'Are you sure? Whole channel list will be deleted.';
+    clearBtn.addEventListener('click', () => {
+        const confirmText = 'Are you sure? Whole channel list will be deleted.';
         if (channelList.firstChild && window.confirm(confirmText)) {
-            while (channelList.firstChild) {
-                channelList.removeChild(channelList.lastChild);
-            }
+            clearList(channelList);
         }
     });
 }());
